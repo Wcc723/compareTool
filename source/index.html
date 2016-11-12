@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>訂單反查工具</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="stylesheets/all.css">
+  <script src="javascripts/vendor.js"></script>
+  <script src="javascripts/all.js"></script>
+</head>
+<body ng-controller="appCtrl as app">
+  <nav class="navbar navbar-light bg-faded header">
+    <a class="navbar-brand" href="/">比對工具</a>
+    <ul class="nav navbar-nav pull-right">
+      <li class="nav-item active">
+      </li>
+    </ul>
+  </nav>
+  <div class="container">
+    <fieldset class="fieldset m-b-2">
+      <div class="form-group">
+        <label>主檔案</label><br>
+        <input type="file" class="form-conrtol" on-read-file="app.mainFile($fileContent)" />
+      </div>
+      <div class="form-group">
+        <label>比對檔案</label><br>
+        <input type="file" class="form-conrtol" on-read-file="app.compareFiles($fileContent)" />
+      </div>
+      <div class="m-y-1">
+        <label> 顯示欄位</label>
+        <div class="form-check has-success">
+          <label class="form-check-label m-r-1" ng-repeat="(key, item) in app.lists">
+            <input type="checkbox" class="form-check-input" ng-model="item.checked" value="option1">
+            {{ item.name }}
+          </label>
+        </div>
+      </div>
+      <div class="form-inline">
+        <div class="form-group">
+          <select class="form-control" name=""  ng-model="app.action.selected">
+            <option value="{{list.name}}" ng-repeat="(key, list) in app.lists">{{list.name}}</option>
+          </select>
+          <button ng-click="app.checkdata()" ng-disabled="!app.action.selected" class="btn btn-primary">比對資料</button>
+          <button type="button" class="btn btn-primary" ng-disabled="!app.afterCompares.data" ng-csv="app.afterCompares.data" csv-header="app.csvHeader" filename="test.csv">Export CSV</button>
+        </div>
+      </div>
+
+
+    </fieldset>
+    <p>
+      注意： Excel 存檔案後，需在 atom 將 LF 轉 CRLF 才可正常讀取
+    </p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>序號</th>
+          <th ng-repeat="(key, list) in app.lists" ng-if="list.checked">
+            {{list.name}}
+          </th>
+          <th>已核對</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(key, item) in app.afterCompares.data | orderBy: '!checked'">
+          <td>{{ key + 1 }}</td>
+          <td ng-repeat="(key, list) in app.lists" ng-if="list.checked">
+            <span ng-bind="item[list.name]"></span>
+          </td>
+          <!-- <td>{{ item['智付寶交易序號'] }}</td>
+          <td>{{ item['支付日期'] }}</td>
+          <td>{{ item['主支付金額'] }}</td>
+          <td>{{ item.checked }}</td> -->
+          <td>
+            <span ng-if="item.checked" class="text-success">有相同資料</span>
+            <span ng-if="!item.checked" class="text-danger">沒有相同資料</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-84087328-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</body>
+</html>
