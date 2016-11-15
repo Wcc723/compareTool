@@ -21,6 +21,11 @@ angular.module 'app'
       vm.getArrayKey(vm.data.compareFiles)
       console.log jsonString, $fileContent
 
+    # 反選 checked 全部
+    vm.checkAll = (checked)->
+      angular.forEach vm.lists, (item, key)->
+        item.checked = checked
+
     vm.checkdata = ()->
       vm.afterCompares.data = []
       # 直接匯入資料
@@ -34,6 +39,7 @@ angular.module 'app'
         angular.forEach vm.afterCompares.data, (afterData, keyAfter)->
           if data2[vm.action.selected] is afterData[vm.action.selected]
             afterData.checked = true
+            isSame = true
         if !isSame
           data2.checked = false
           vm.afterCompares.data.push data2

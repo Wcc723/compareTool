@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app">
 <head>
   <meta charset="UTF-8">
-  <title>訂單反查工具</title>
+  <title>比對工具 001 號</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -31,11 +31,16 @@
       <div class="m-y-1">
         <label> 顯示欄位</label>
         <div class="form-check has-success">
+          <label class="form-check-label m-r-1">
+            <input type="checkbox" class="form-check-input" ng-model="app.allChecked" ng-change="app.checkAll(app.allChecked)">
+            反選全部
+          </label>
           <label class="form-check-label m-r-1" ng-repeat="(key, item) in app.lists">
             <input type="checkbox" class="form-check-input" ng-model="item.checked" value="option1">
             {{ item.name }}
           </label>
         </div>
+
       </div>
       <div class="form-inline">
         <div class="form-group">
