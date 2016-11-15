@@ -23,6 +23,11 @@ angular.module('app').controller('appCtrl', [
       vm.getArrayKey(vm.data.compareFiles);
       return console.log(jsonString, $fileContent);
     };
+    vm.checkAll = function(checked) {
+      return angular.forEach(vm.lists, function(item, key) {
+        return item.checked = checked;
+      });
+    };
     vm.checkdata = function() {
       vm.afterCompares.data = [];
       angular.forEach(vm.data.mainFile, function(data1, key1) {
@@ -34,7 +39,8 @@ angular.module('app').controller('appCtrl', [
         isSame = false;
         angular.forEach(vm.afterCompares.data, function(afterData, keyAfter) {
           if (data2[vm.action.selected] === afterData[vm.action.selected]) {
-            return afterData.checked = true;
+            afterData.checked = true;
+            return isSame = true;
           }
         });
         if (!isSame) {
