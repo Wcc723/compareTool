@@ -32,6 +32,7 @@ angular.module('app').controller('appCtrl', [
       vm.afterCompares.data = [];
       angular.forEach(vm.data.mainFile, function(data1, key1) {
         data1.checked = false;
+        data1.data1 = true;
         return vm.afterCompares.data.push(data1);
       });
       return angular.forEach(vm.data.compareFiles, function(data2, key2) {
@@ -40,10 +41,12 @@ angular.module('app').controller('appCtrl', [
         angular.forEach(vm.afterCompares.data, function(afterData, keyAfter) {
           if (data2[vm.action.selected] === afterData[vm.action.selected]) {
             afterData.checked = true;
+            afterData.data2 = true;
             return isSame = true;
           }
         });
         if (!isSame) {
+          data2.data2 = true;
           data2.checked = false;
           return vm.afterCompares.data.push(data2);
         }
