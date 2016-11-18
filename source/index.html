@@ -65,6 +65,8 @@
           <th ng-repeat="(key, list) in app.lists" ng-if="list.checked">
             {{list.name}}
           </th>
+          <th>Data1</th>
+          <th>Data2</th>
           <th>已核對</th>
         </tr>
       </thead>
@@ -78,6 +80,14 @@
           <td>{{ item['支付日期'] }}</td>
           <td>{{ item['主支付金額'] }}</td>
           <td>{{ item.checked }}</td> -->
+          <td>
+            <span ng-if="item.data1" class="text-success">有資料</span>
+            <span ng-if="!item.data1" class="text-danger">沒資料</span>
+          </td>
+          <td>
+            <span ng-if="item.data2" class="text-success">有資料</span>
+            <span ng-if="!item.data2" class="text-danger">沒資料</span>
+          </td>
           <td>
             <span ng-if="item.checked" class="text-success">有相同資料</span>
             <span ng-if="!item.checked" class="text-danger">沒有相同資料</span>

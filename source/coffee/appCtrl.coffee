@@ -31,6 +31,7 @@ angular.module 'app'
       # 直接匯入資料
       angular.forEach vm.data.mainFile, (data1, key1)->
         data1.checked = false
+        data1.data1 = true
         vm.afterCompares.data.push data1
 
       # 比對資料
@@ -39,8 +40,10 @@ angular.module 'app'
         angular.forEach vm.afterCompares.data, (afterData, keyAfter)->
           if data2[vm.action.selected] is afterData[vm.action.selected]
             afterData.checked = true
+            afterData.data2 = true
             isSame = true
         if !isSame
+          data2.data2 = true
           data2.checked = false
           vm.afterCompares.data.push data2
 
