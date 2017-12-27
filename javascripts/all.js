@@ -78,11 +78,10 @@ angular.module('app').controller('appCtrl', [
         return item['$$hashKey'] === winner['$$hashKey'];
       });
       if (!thesame) {
-        vm.winners.push(winner);
+        return vm.winners.push(winner);
       } else if (thesame && vm.winners.length !== vm.afterCompares.data.length) {
-        vm.getWinner();
+        return vm.getWinner();
       }
-      return console.log(number, winner, vm.winners, thesame, winner['$$hashKey']);
     };
   }
 ]);
