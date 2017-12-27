@@ -10,6 +10,8 @@ angular.module('app').controller('appCtrl', [
     vm.checked = [];
     vm.afterCompares = {};
     vm.csvHeader = [];
+    vm.winners = [];
+    vm.type = 'compare';
     vm.mainFile = function($fileContent) {
       var jsonString;
       jsonString = fCsv.toJson($fileContent);
@@ -60,6 +62,27 @@ angular.module('app').controller('appCtrl', [
       });
       vm.csvHeader.push('Compare');
       return console.log(vm.csvHeader);
+    };
+    vm.importlLotteryList = function() {
+      return vm.afterCompares.data = vm.data.mainFile.map(function(data1, key1) {
+        data1.winner = false;
+        return data1;
+      });
+    };
+    vm.getWinner = function() {
+      var length, number, thesame, winner;
+      length = vm.afterCompares.data.length;
+      number = Math.floor(Math.random() * length);
+      winner = vm.afterCompares.data[number];
+      thesame = vm.winners.some(function(item) {
+        return item['$$hashKey'] === winner['$$hashKey'];
+      });
+      if (!thesame) {
+        vm.winners.push(winner);
+      } else if (thesame && vm.winners.length(!vm.afterCompares.data.length)) {
+        vm.getWinner();
+      }
+      return console.log(number, winner, vm.winners, thesame, winner['$$hashKey']);
     };
   }
 ]);
