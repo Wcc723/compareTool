@@ -79,7 +79,7 @@ angular.module('app').controller('appCtrl', [
       });
       if (!thesame) {
         vm.winners.push(winner);
-      } else if (thesame && vm.winners.length(!vm.afterCompares.data.length)) {
+      } else if (thesame && vm.winners.length !== vm.afterCompares.data.length) {
         vm.getWinner();
       }
       return console.log(number, winner, vm.winners, thesame, winner['$$hashKey']);

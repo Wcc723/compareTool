@@ -58,12 +58,12 @@
           <button type="button" class="btn btn-primary" ng-click="app.importlLotteryList()" ng-disabled="app.afterCompares.data">列出名單</button>
           <button type="button" class="btn btn-primary" ng-click="app.getWinner()"ng-disabled="!app.afterCompares.data">我要抽獎</button>
         </div>
-        <ul>
+        <ol>
           <li ng-repeat="(key, item) in app.winners">
-            <span class="fa fa-trophy"></span>
+            <span class="fa fa-trophy text-warning"></span>
             {{ item[app.action.selected] }}
           </li>
-        </ul>
+        </ol>
       </div>
 
 
