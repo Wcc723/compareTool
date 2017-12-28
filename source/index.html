@@ -19,15 +19,54 @@
     </ul>
   </nav>
   <div class="container">
+    
     <fieldset class="fieldset m-b-2">
+      <button type="button" class="btn btn-secondary" ng-click="app.type = 'compare'"
+        ng-class="{ 'active': app.type == 'compare' }">我要比對</button>
+      <button type="button" class="btn btn-secondary" 
+        ng-class="{ 'active': app.type == 'getLottery' }" ng-click="app.type = 'getLottery'">我要抽獎</button>
+      <hr>
       <div class="form-group">
         <label>主檔案</label><br>
         <input type="file" class="form-conrtol" on-read-file="app.mainFile($fileContent)" />
       </div>
-      <div class="form-group">
-        <label>比對檔案</label><br>
-        <input type="file" class="form-conrtol" on-read-file="app.compareFiles($fileContent)" />
+      
+      <div ng-if="app.type == 'compare'">
+        <div class="form-group">
+          <label>比對檔案</label>
+          <br>
+          <input type="file" class="form-conrtol" on-read-file="app.compareFiles($fileContent)" />
+        </div>
+
+        <div class="form-inline">
+          <div class="form-group">
+            <select class="form-control" name="" ng-model="app.action.selected">
+              <option value="{{list.name}}" ng-repeat="(key, list) in app.lists">{{list.name}}</option>
+            </select>
+            <button ng-click="app.checkdata()" ng-disabled="!app.action.selected" class="btn btn-primary">比對資料</button>
+            <button type="button" class="btn btn-primary" ng-disabled="!app.afterCompares.data" ng-csv="app.afterCompares.data" csv-header="app.csvHeader"
+              filename="test.csv">Export CSV</button>
+          </div>
+        </div>
       </div>
+
+      <div class="form-inline" ng-if="app.type == 'getLottery'">
+        <div class="form-group">
+          <select class="form-control" name="" ng-model="app.action.selected">
+            <option value="{{list.name}}" ng-repeat="(key, list) in app.lists">{{list.name}}</option>
+          </select>
+          <button type="button" class="btn btn-primary" ng-click="app.importlLotteryList()" ng-disabled="app.afterCompares.data">列出名單</button>
+          <button type="button" class="btn btn-primary" ng-click="app.getWinner()"ng-disabled="!app.afterCompares.data">我要抽獎</button>
+        </div>
+        <ol>
+          <li ng-repeat="(key, item) in app.winners">
+            <span class="fa fa-trophy text-warning"></span>
+            {{ item[app.action.selected] }}
+          </li>
+        </ol>
+      </div>
+
+
       <div class="m-y-1">
         <label> 顯示欄位</label>
         <div class="form-check has-success">
@@ -42,15 +81,7 @@
         </div>
 
       </div>
-      <div class="form-inline">
-        <div class="form-group">
-          <select class="form-control" name=""  ng-model="app.action.selected">
-            <option value="{{list.name}}" ng-repeat="(key, list) in app.lists">{{list.name}}</option>
-          </select>
-          <button ng-click="app.checkdata()" ng-disabled="!app.action.selected" class="btn btn-primary">比對資料</button>
-          <button type="button" class="btn btn-primary" ng-disabled="!app.afterCompares.data" ng-csv="app.afterCompares.data" csv-header="app.csvHeader" filename="test.csv">Export CSV</button>
-        </div>
-      </div>
+      
 
 
     </fieldset>
@@ -65,9 +96,9 @@
           <th ng-repeat="(key, list) in app.lists" ng-if="list.checked">
             {{list.name}}
           </th>
-          <th>Data1</th>
-          <th>Data2</th>
-          <th>已核對</th>
+          <th ng-if="app.type == 'compare'">Data1</th>
+          <th ng-if="app.type == 'compare'">Data2</th>
+          <th ng-if="app.type == 'compare'">已核對</th>
         </tr>
       </thead>
       <tbody>
@@ -80,15 +111,15 @@
           <td>{{ item['支付日期'] }}</td>
           <td>{{ item['主支付金額'] }}</td>
           <td>{{ item.checked }}</td> -->
-          <td>
+          <td ng-if="app.type == 'compare'">
             <span ng-if="item.data1" class="text-success">有資料</span>
             <span ng-if="!item.data1" class="text-danger">沒資料</span>
           </td>
-          <td>
+          <td ng-if="app.type == 'compare'">
             <span ng-if="item.data2" class="text-success">有資料</span>
             <span ng-if="!item.data2" class="text-danger">沒資料</span>
           </td>
-          <td>
+          <td ng-if="app.type == 'compare'">
             <span ng-if="item.checked" class="text-success">有相同資料</span>
             <span ng-if="!item.checked" class="text-danger">沒有相同資料</span>
           </td>

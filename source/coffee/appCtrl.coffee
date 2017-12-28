@@ -7,6 +7,8 @@ angular.module 'app'
     vm.checked = []
     vm.afterCompares = {}
     vm.csvHeader = []
+    vm.winners = []
+    vm.type = 'compare'
 
     # 上傳主要檔案
     vm.mainFile = ($fileContent)->
@@ -56,6 +58,25 @@ angular.module 'app'
       vm.csvHeader.push 'Compare'
       console.log vm.csvHeader
 
+    # 抽獎
+    vm.importlLotteryList = () ->
+      vm.afterCompares.data = vm.data.mainFile.map (data1, key1)->
+        data1.winner = false
+        return data1
+
+    vm.getWinner = ()->
+      length = vm.afterCompares.data.length
+      number = Math.floor(Math.random() * length)
+      winner = vm.afterCompares.data[number]
+      thesame = vm.winners.some (item)->
+        return item['$$hashKey'] == winner['$$hashKey']
+      # 如果沒有相同的
+      if !thesame
+        vm.winners.push(winner)
+      else if thesame && vm.winners.length isnt vm.afterCompares.data.length
+        # 有相同的就再抽一次
+        vm.getWinner()
+      # console.log(number, winner, vm.winners, thesame, winner['$$hashKey'])
 
     return
   ]
